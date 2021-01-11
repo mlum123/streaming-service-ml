@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, make_response
 from flask_restplus import Api, Resource, fields
 from sklearn.externals import joblib
 from classifier import features_final_df
+from classifier import scaler
 import numpy as np
 
 flask_app = Flask(__name__)
@@ -52,21 +53,24 @@ class MainClass(Resource):
 			data = []
 			for col in features_final_df.columns:
 				if col == 'Year':
-					data += [formData.releaseyear]
+					data += [int(formData['releaseyear'])]
 				elif col == 'Runtime':
-					data += [formData.runtime]
+					data += [int(formData['runtime'])]
 				elif col == 'min_age':
-					data += [formData.minage]
-				elif col in formData.genres:
+					data += [int(formData['minage'])]
+				elif col in formData['genres']:
 					data += [1]
-				elif col == formData.country:
+				elif col == formData['country']:
 					data += [1]
-				elif col == formData.language:
+				elif col == formData['language']:
 					data += [1]
 				else:
-					data.append("")
-					
-			prediction = classifier.predict(np.array(data).reshape(1, -1))
+					data.append(0)
+
+			# normalize features
+			data = scaler.transform(np.array(data).reshape(1, -1))
+								
+			prediction = classifier.predict(data)
 			platforms = {0: "Netflix", 1: "Hulu", 2: "Prime Video", 3: "Disney+"}
 			response = jsonify({
 				"statusCode": 200,
@@ -76,8 +80,10 @@ class MainClass(Resource):
 			response.headers.add('Access-Control-Allow-Origin', '*')
 			return response
 		except Exception as error:
-			return jsonify({
+			response = jsonify({
 				"statusCode": 500,
 				"status": "Could not make choice",
 				"error": str(error)
-			})
+				})
+			response.headers.add('Access-Control-Allow-Origin', '*')
+			return response

@@ -280,9 +280,6 @@ class App extends Component {
               <Row>
                 <Col className="result-container">
                   <h5 id="result">{result}</h5>
-                  {result.includes("Prime") ? (
-                    <i class="fab fa-amazon"></i>
-                  ) : null}
                 </Col>
               </Row>
             )}
