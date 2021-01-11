@@ -86,7 +86,7 @@ X_test = scaler.transform(X_test)
 # create Logistic Regression model to split data into 4 classes of platforms
 # predict which platform the user will get the most out of, based on their preferences for the movies they want to watch
 from sklearn.linear_model import LogisticRegression
-model = LogisticRegression()
+model = LogisticRegression(multi_class='multinomial', solver='lbfgs')
 model.fit(X_train, y_train)
 
 ### Save the Model to Disk ###

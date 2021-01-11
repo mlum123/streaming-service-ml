@@ -48,6 +48,7 @@ class MainClass(Resource):
 	@app.expect(model)		
 	def post(self):
 		try:
+			# put formData in correct format to pass into classifier model
 			formData = request.json
 
 			data = []
