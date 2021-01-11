@@ -14,16 +14,18 @@ class App extends Component {
     this.state = {
       isLoading: false,
       formData: {
-        textfield1: "",
-        textfield2: "",
-        select1: 1,
-        select2: 1,
-        select3: 1,
+        releaseyear: "",
+        runtime: "",
+        minage: "",
+        country: "United States",
+        language: "English",
+        genres: [],
       },
       result: "",
     };
   }
 
+  // onChange event handler for form input boxes
   handleChange = (event) => {
     const value = event.target.value;
     const name = event.target.name;
@@ -32,6 +34,26 @@ class App extends Component {
     this.setState({
       formData,
     });
+    console.log(this.state);
+  };
+
+  // onChange event handler for genre checkboxes
+  handleCheck = (event) => {
+    const value = event.target.value;
+    const name = event.target.name;
+    const checked = event.target.checked;
+    var formData = this.state.formData;
+    if (checked) {
+      formData[name].push(value);
+      this.setState({
+        formData,
+      });
+    } else {
+      formData[name] = formData[name].filter((genre) => genre !== value);
+      this.setState({
+        formData,
+      });
+    }
   };
 
   handlePredictClick = (event) => {
@@ -62,6 +84,76 @@ class App extends Component {
     const isLoading = this.state.isLoading;
     const formData = this.state.formData;
     const result = this.state.result;
+    const countries = [
+      "United States",
+      "United Kingdom",
+      "Australia",
+      "Canada",
+      "Japan",
+      "South Korea",
+      "China",
+      "Taiwan",
+      "Hong Kong",
+      "Thailand",
+      "Indonesia",
+      "Philippines",
+      "India",
+      "Italy",
+      "France",
+      "Belgium",
+      "Spain",
+      "Germany",
+      "Netherlands",
+      "Greece",
+      "Mexico",
+      "Brazil",
+      "Argentina",
+      "Turkey",
+      "Israel",
+      "Egypt",
+    ];
+    const languages = [
+      "English",
+      "Spanish",
+      "French",
+      "Italian",
+      "German",
+      "Portuguese",
+      "Russian",
+      "Danish",
+      "Dutch",
+      "Polish",
+      "Hindi",
+      "Tamil",
+      "Telugu",
+      "Punjabi",
+      "Marathi",
+      "Malayalam",
+      "Japanese",
+      "Korean",
+      "Mandarin",
+      "Cantonese",
+      "Filipino",
+      "Tagalog",
+      "Thai",
+      "Vietnamese",
+      "Indonesian",
+      "Turkish",
+      "Arabic",
+      "Hebrew",
+      "Latin",
+      "Yiddish",
+    ];
+    const genres_popular = [
+      "Drama",
+      "Comedy",
+      "Documentary",
+      "Family",
+      "Animation",
+      "Action",
+      "Thriller",
+      "Horror",
+    ];
 
     return (
       <div id="page">
@@ -81,68 +173,88 @@ class App extends Component {
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col}>
-                  <Form.Label>Text Field 1</Form.Label>
+                  <Form.Label>Country</Form.Label>
                   <Form.Control
-                    type="text"
-                    placeholder="Text Field 1"
-                    name="textfield1"
-                    value={formData.textfield1}
+                    as="select"
+                    value={formData.country}
+                    name="country"
                     onChange={this.handleChange}
-                  />
+                  >
+                    {countries.map((country) => (
+                      <option key={country}>{country}</option>
+                    ))}
+                  </Form.Control>
                 </Form.Group>
                 <Form.Group as={Col}>
-                  <Form.Label>Text Field 2</Form.Label>
+                  <Form.Label>Language</Form.Label>
                   <Form.Control
-                    type="text"
-                    placeholder="Text Field 2"
-                    name="textfield2"
-                    value={formData.textfield2}
+                    as="select"
+                    value={formData.language}
+                    name="language"
                     onChange={this.handleChange}
-                  />
+                  >
+                    {languages.map((language) => (
+                      <option key={language}>{language}</option>
+                    ))}
+                  </Form.Control>
                 </Form.Group>
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col}>
-                  <Form.Label>Select 1</Form.Label>
+                  <Form.Row>
+                    <Form.Label>Genre(s)</Form.Label>
+                  </Form.Row>
+                  <Form.Row>
+                    {genres_popular.map((genre) => {
+                      return (
+                        <Form.Check
+                          inline
+                          label={genre}
+                          name="genres"
+                          value={genre}
+                          type="checkbox"
+                          key={genres_popular.indexOf(genre)}
+                          id={`inline-checkbox-${genres_popular.indexOf(
+                            genre
+                          )}`}
+                          checked={formData.genres[genre]}
+                          onChange={this.handleCheck}
+                        />
+                      );
+                    })}
+                  </Form.Row>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col}>
+                  <Form.Label>Release Year</Form.Label>
                   <Form.Control
-                    as="select"
-                    value={formData.select1}
-                    name="select1"
+                    type="text"
+                    placeholder="Release Year"
+                    name="releaseyear"
+                    value={formData.releaseyear}
                     onChange={this.handleChange}
-                  >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                  </Form.Control>
+                  />
                 </Form.Group>
                 <Form.Group as={Col}>
-                  <Form.Label>Select 2</Form.Label>
+                  <Form.Label>Runtime (min)</Form.Label>
                   <Form.Control
-                    as="select"
-                    value={formData.select2}
-                    name="select2"
+                    type="text"
+                    placeholder="Runtime"
+                    name="runtime"
+                    value={formData.runtime}
                     onChange={this.handleChange}
-                  >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                  </Form.Control>
+                  />
                 </Form.Group>
                 <Form.Group as={Col}>
-                  <Form.Label>Select 3</Form.Label>
+                  <Form.Label>Min Age</Form.Label>
                   <Form.Control
-                    as="select"
-                    value={formData.select3}
-                    name="select3"
+                    type="text"
+                    placeholder="Min Age"
+                    name="minage"
+                    value={formData.minage}
                     onChange={this.handleChange}
-                  >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                  </Form.Control>
+                  />
                 </Form.Group>
               </Form.Row>
               <Row>

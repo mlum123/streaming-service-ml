@@ -11,12 +11,12 @@ app = Api(app = flask_app,
 name_space = app.namespace('prediction', description='Prediction APIs')
 
 model = app.model('Prediction params', 
-				  {'textField1': fields.String(required = True, 
-				  							   description="Text Field 1", 
-    					  				 	   help="Text Field 1 cannot be blank"),
-				  'textField2': fields.String(required = True, 
-				  							   description="Text Field 2", 
-    					  				 	   help="Text Field 2 cannot be blank"),
+				  {'releaseyear': fields.String(required = True, 
+				  							   description="Release Year", 
+    					  				 	   help="Release Year cannot be blank"),
+				  'runtime': fields.String(required = True, 
+				  							   description="Runtime in minutes", 
+    					  				 	   help="Runtime cannot be blank"),
 				  'select1': fields.Integer(required = True, 
 				  							description="Select 1", 
     					  				 	help="Select 1 cannot be blank"),
@@ -47,14 +47,14 @@ class MainClass(Resource):
 			# prediction = classifier.predict(data)
 			response = jsonify({
 				"statusCode": 200,
-				"status": "Prediction made",
-				"result": "Prediction: " + str(data)
+				"status": "Choice made",
+				"result": "Choice: " + str(data)
 				})
 			response.headers.add('Access-Control-Allow-Origin', '*')
 			return response
 		except Exception as error:
 			return jsonify({
 				"statusCode": 500,
-				"status": "Could not make prediction",
+				"status": "Could not make choice",
 				"error": str(error)
 			})
