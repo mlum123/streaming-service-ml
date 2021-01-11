@@ -6,3 +6,4 @@
 pyvenv.cfg
 
 .Python
+.DS_Store

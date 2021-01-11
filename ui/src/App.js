@@ -56,6 +56,7 @@ class App extends Component {
     }
   };
 
+  // onClick handler for predict button: send POST request to Flask backend to run Python prediction model
   handlePredictClick = (event) => {
     const formData = this.state.formData;
     this.setState({ isLoading: true });
@@ -76,6 +77,7 @@ class App extends Component {
       });
   };
 
+  // onClick handler for reset button
   handleCancelClick = (event) => {
     this.setState({ result: "" });
   };
