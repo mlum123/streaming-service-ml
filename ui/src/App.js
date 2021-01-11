@@ -201,28 +201,23 @@ class App extends Component {
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col}>
-                  <Form.Row>
-                    <Form.Label>Genre(s)</Form.Label>
-                  </Form.Row>
-                  <Form.Row>
-                    {genres_popular.map((genre) => {
-                      return (
-                        <Form.Check
-                          inline
-                          label={genre}
-                          name="genres"
-                          value={genre}
-                          type="checkbox"
-                          key={genres_popular.indexOf(genre)}
-                          id={`inline-checkbox-${genres_popular.indexOf(
-                            genre
-                          )}`}
-                          checked={formData.genres[genre]}
-                          onChange={this.handleCheck}
-                        />
-                      );
-                    })}
-                  </Form.Row>
+                  <Form.Label>Genre(s)</Form.Label>
+                  <br></br>
+                  {genres_popular.map((genre) => {
+                    return (
+                      <Form.Check
+                        inline
+                        label={genre}
+                        name="genres"
+                        value={genre}
+                        type="checkbox"
+                        key={genres_popular.indexOf(genre)}
+                        id={`inline-checkbox-${genres_popular.indexOf(genre)}`}
+                        checked={formData.genres[genre]}
+                        onChange={this.handleCheck}
+                      />
+                    );
+                  })}
                 </Form.Group>
               </Form.Row>
               <Form.Row>
