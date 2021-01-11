@@ -14,12 +14,12 @@ class App extends Component {
     this.state = {
       isLoading: false,
       formData: {
-        releaseyear: "",
-        runtime: "",
-        minage: "",
         country: "United States",
         language: "English",
         genres: [],
+        releaseyear: "",
+        runtime: "",
+        minage: "",
       },
       result: "",
     };

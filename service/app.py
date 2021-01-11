@@ -11,21 +11,24 @@ app = Api(app = flask_app,
 name_space = app.namespace('prediction', description='Prediction APIs')
 
 model = app.model('Prediction params', 
-				  {'releaseyear': fields.String(required = True, 
+				  {'country': fields.String(required = True, 
+				  							description="Country", 
+    					  				 	help="Country cannot be blank"),
+				  'language': fields.String(required = True, 
+				  							description="Language", 
+    					  				 	help="Language cannot be blank"),
+				  'genres': fields.Array(required = True, 
+				  							description="Genre(s)", 
+    					  				 	help="Must pick at least one Genre"),
+				  'releaseyear': fields.String(required = True, 
 				  							   description="Release Year", 
     					  				 	   help="Release Year cannot be blank"),
 				  'runtime': fields.String(required = True, 
 				  							   description="Runtime in minutes", 
     					  				 	   help="Runtime cannot be blank"),
-				  'select1': fields.Integer(required = True, 
-				  							description="Select 1", 
-    					  				 	help="Select 1 cannot be blank"),
-				  'select2': fields.Integer(required = True, 
-				  							description="Select 2", 
-    					  				 	help="Select 2 cannot be blank"),
-				  'select3': fields.Integer(required = True, 
-				  							description="Select 3", 
-    					  				 	help="Select 3 cannot be blank")})
+				  'minage': fields.String(required = True, 
+				  							description="Minimum Age to see movie", 
+    					  				 	help="Min Age cannot be blank")})
 
 # classifier = joblib.load('classifier.joblib')
 
