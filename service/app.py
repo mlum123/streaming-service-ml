@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, make_response
 from flask_restplus import Api, Resource, fields
 from sklearn.externals import joblib
+from classifier import features_final_df
+import numpy as np
 
 flask_app = Flask(__name__)
 app = Api(app = flask_app, 
@@ -17,8 +19,8 @@ model = app.model('Prediction params',
 				  'language': fields.String(required = True, 
 				  							description="Language", 
     					  				 	help="Language cannot be blank"),
-				  'genres': fields.Array(required = True, 
-				  							description="Genre(s)", 
+				  'genres': fields.String(required = True, 
+				  							description="Genres", 
     					  				 	help="Must pick at least one Genre"),
 				  'releaseyear': fields.String(required = True, 
 				  							   description="Release Year", 
@@ -30,7 +32,7 @@ model = app.model('Prediction params',
 				  							description="Minimum Age to see movie", 
     					  				 	help="Min Age cannot be blank")})
 
-# classifier = joblib.load('classifier.joblib')
+classifier = joblib.load('classifier.joblib')
 
 @name_space.route("/")
 class MainClass(Resource):
@@ -44,14 +46,32 @@ class MainClass(Resource):
 
 	@app.expect(model)		
 	def post(self):
-		try: 
+		try:
 			formData = request.json
-			data = [val for val in formData.values()]
-			# prediction = classifier.predict(data)
+
+			data = []
+			for col in features_final_df.columns:
+				if col == 'Year':
+					data += [formData.releaseyear]
+				elif col == 'Runtime':
+					data += [formData.runtime]
+				elif col == 'min_age':
+					data += [formData.minage]
+				elif col in formData.genres:
+					data += [1]
+				elif col == formData.country:
+					data += [1]
+				elif col == formData.language:
+					data += [1]
+				else:
+					data.append("")
+					
+			prediction = classifier.predict(np.array(data).reshape(1, -1))
+			platforms = {0: "Netflix", 1: "Hulu", 2: "Prime Video", 3: "Disney+"}
 			response = jsonify({
 				"statusCode": 200,
 				"status": "Choice made",
-				"result": "Choice: " + str(data)
+				"result": "Choice: " + platforms[prediction[0]]
 				})
 			response.headers.add('Access-Control-Allow-Origin', '*')
 			return response

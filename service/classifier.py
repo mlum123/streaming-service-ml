@@ -5,6 +5,7 @@ import itertools
 from matplotlib import pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+from sklearn.externals import joblib
 
 ### Load Data from CSV ###
 df = pd.read_csv("MoviesOnStreamingPlatforms_updated.csv")
@@ -88,5 +89,6 @@ X_test = scaler.transform(X_test)
 from sklearn.linear_model import LogisticRegression
 model = LogisticRegression()
 model.fit(X_train, y_train)
-print(model.predict(X_test))
-print(model.score(X_test, y_test))
+
+### Save the Model to Disk ###
+joblib.dump(model, 'classifier.joblib')

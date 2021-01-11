@@ -34,7 +34,6 @@ class App extends Component {
     this.setState({
       formData,
     });
-    console.log(this.state);
   };
 
   // onChange event handler for genre checkboxes
