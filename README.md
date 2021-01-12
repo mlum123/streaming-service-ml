@@ -4,7 +4,7 @@ With so many streaming platforms available today, how do you pick which one to s
 
 This is a web application with a React frontend and Flask backend that predicts what streaming service (out of Netflix, Hulu, Prime Video, or Disney+) a user should get, based on the user's responses to a form asking about the kinds of movies they'd like to watch.
 
-I used a supervised learning model trained on features such as release year, runtime, minimum age, country, language, and genre to predict which platform a movie with those attributes would most likely be found on. I decided to go with Multinomial Logistic Regression since the multinomial part is for classifying data into multiple classes (not just two different classes). Furthermore, in my exploration, I experimented with a Multinomial Logistic Regression classifier, Decision Tree classifiers, Support Vector Machine classifiers, and K Neighbors classifiers, and the Multinomial Logistic Regression classifier had the highest accuracy for the validation set.
+I used a supervised learning model trained on features such as release year, runtime, minimum age, country, language, and genre to predict which platform a movie with those attributes would most likely be found on. I decided to go with Multinomial Logistic Regression since the multinomial part is for classifying data into multiple classes (not just two different classes). In my exploration, I tried out a Multinomial Logistic Regression classifier, Decision Tree classifiers, Support Vector Machine classifiers, and K Nearest Neighbors classifiers, and settled on the Multinomial Logistic Regression classifier.
 
 ## Technologies Used
 
